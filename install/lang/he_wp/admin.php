@@ -30,6 +30,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['parentlanguage'] = 'es';
-$string['thisdirection'] = 'ltr';
-$string['thislanguage'] = 'Español para la Empresa';
+$string['clianswerno'] = 'ל';
+$string['cliansweryes'] = 'כ';
+$string['cliincorrectvalueretry'] = 'ערך לא תקין, נסו שוב בבקשה';
