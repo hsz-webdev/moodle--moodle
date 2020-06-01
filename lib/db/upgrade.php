@@ -3449,9 +3449,6 @@ function xmldb_main_upgrade($oldversion) {
     }
 
     if ($oldversion < 2019052003.05) {
-        // Delete any tool_cohortroles mappings for roles which no longer exist.
-        $DB->delete_records_select('tool_cohortroles', "roleid NOT IN (SELECT id FROM {role})");
-
         // Delete any role assignments for roles which no longer exist.
         $DB->delete_records_select('role_assignments', "roleid NOT IN (SELECT id FROM {role})");
 
@@ -3510,6 +3507,17 @@ function xmldb_main_upgrade($oldversion) {
 
         // Main savepoint reached.
         upgrade_main_savepoint(true, 2019052004.05);
+    }
+
+    if ($oldversion < 2019052005.05) {
+        // Clean up completion criteria records referring to courses that no longer exist.
+        $select = 'criteriatype = :type AND courseinstance NOT IN (SELECT id FROM {course})';
+        $params = ['type' => 8]; // COMPLETION_CRITERIA_TYPE_COURSE.
+
+        $DB->delete_records_select('course_completion_criteria', $select, $params);
+
+        // Main savepoint reached.
+        upgrade_main_savepoint(true, 2019052005.05);
     }
 
     return true;
